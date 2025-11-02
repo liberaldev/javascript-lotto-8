@@ -64,7 +64,7 @@ class App {
       this.#lottoWinningNumbers = this.#lottoWinningNumbers.map((number) => Number(number));
       this.#validateWinningNumbers();
     } catch (error) {
-      MissionUtils.Console.print(`\n${error.message}\n`);
+      MissionUtils.Console.print(`\n${error.message}`);
       await this.#inputWinningNumbers();
     }
   }
