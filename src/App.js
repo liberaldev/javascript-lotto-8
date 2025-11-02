@@ -25,6 +25,13 @@ class App {
     }
   }
 
+  #displayLottoTickets() {
+    MissionUtils.Console.print(`\n${this.#lottoTickets.length}개를 구매했습니다.`);
+    this.#lottoTickets.forEach((lottoTicket) => {
+      MissionUtils.Console.print(`[${lottoTicket.getNumbers().sort((a, b) => (a - b)).join(', ')}]`);
+    });
+  }
+
   async run() {
     try {
       this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
@@ -34,6 +41,7 @@ class App {
       this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
     }
     this.#buyLottoTickets();
+    this.#displayLottoTickets();
   }
 }
 
