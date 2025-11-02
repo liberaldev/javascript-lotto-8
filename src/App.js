@@ -71,9 +71,20 @@ class App {
     }
   }
 
+  #validateBonusNumber() {
+    if (Number.isNaN(this.#lottoBonusNumber)) {
+      throw new Error('[ERROR] 숫자를 입력하세요');
+    }
+
+    if (this.#lottoBonusNumber < 1 || this.#lottoBonusNumber > 45) {
+      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요');
+    }
+  }
+
   async #inputBonusNumber() {
     try {
       this.#lottoBonusNumber = Number(await MissionUtils.Console.readLineAsync('\n보너스 번호를 입력해 주세요.\n'));
+      this.#validateBonusNumber();
     } catch (error) {
       MissionUtils.Console.print(`\n${error.message}`);
       await this.#inputBonusNumber();
