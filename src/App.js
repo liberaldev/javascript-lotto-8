@@ -1,7 +1,14 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
+import Lotto from './Lotto.js';
 
 class App {
   #amount;
+
+  #lottoTickets;
+
+  constructor() {
+    this.#lottoTickets = [];
+  }
 
   #validateAmount() {
     if (Number.isNaN(this.#amount)) {
@@ -9,6 +16,12 @@ class App {
     }
     if (this.#amount % 1000 !== 0) {
       throw new Error('[ERROR] 1000원으로 나누어떨어지지 않습니다. 1000원 단위로 입력하십시오');
+    }
+  }
+
+  #buyLottoTickets() {
+    for (let i = 0; i < this.#amount / 1000; i += 1) {
+      this.#lottoTickets.push(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
     }
   }
 
@@ -20,6 +33,7 @@ class App {
       MissionUtils.Console.print(`\n${error.message}\n`);
       this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
     }
+    this.#buyLottoTickets();
   }
 }
 
