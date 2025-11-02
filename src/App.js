@@ -17,7 +17,7 @@ class App {
       this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
       this.#validateAmount();
     } catch (error) {
-      MissionUtils.Console.print(error.message);
+      MissionUtils.Console.print(`\n${error.message}\n`);
       this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
     }
   }
