@@ -23,6 +23,22 @@ class Lotto {
   getNumbers() {
     return this.#numbers;
   }
+
+  ranking(winningNumbers, bonusNumber) {
+    const winningNumbersSet = new Set(winningNumbers);
+    const RANKING_BY_COUNT = {
+      6: '1st',
+      5: '3rd',
+      4: '4th',
+      3: '5th',
+    };
+    let result = RANKING_BY_COUNT[winningNumbersSet.intersection(new Set(this.#numbers)).size]
+      || null;
+    if (result === '3rd' && this.#numbers.includes(bonusNumber)) {
+      result = '2nd';
+    }
+    return result;
+  }
 }
 
 export default Lotto;
