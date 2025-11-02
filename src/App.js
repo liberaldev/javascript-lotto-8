@@ -44,10 +44,25 @@ class App {
     });
   }
 
+  #validateWinningNumbers() {
+    if (this.#lottoWinningNumbers.includes(NaN)) {
+      throw new Error('[ERROR] 숫자를 입력하세요');
+    }
+
+    if (this.#lottoWinningNumbers.length !== 6) {
+      throw new Error('[ERROR] 6개 숫자를 입력하세요');
+    }
+
+    if (this.#lottoWinningNumbers.some((number) => number < 1 || number > 45)) {
+      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요');
+    }
+  }
+
   async #inputWinningNumbers() {
     try {
       this.#lottoWinningNumbers = (await MissionUtils.Console.readLineAsync('\n당첨 번호를 입력해 주세요.\n')).split(',');
       this.#lottoWinningNumbers = this.#lottoWinningNumbers.map((number) => Number(number));
+      this.#validateWinningNumbers();
     } catch (error) {
       MissionUtils.Console.print(`\n${error.message}\n`);
       await this.#inputWinningNumbers();
