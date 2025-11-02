@@ -8,6 +8,8 @@ class App {
 
   #lottoWinningNumbers;
 
+  #lottoBonusNumber;
+
   constructor() {
     this.#lottoTickets = [];
   }
@@ -69,11 +71,21 @@ class App {
     }
   }
 
+  async #inputBonusNumber() {
+    try {
+      this.#lottoBonusNumber = Number(await MissionUtils.Console.readLineAsync('\n보너스 번호를 입력해 주세요.\n'));
+    } catch (error) {
+      MissionUtils.Console.print(`\n${error.message}`);
+      await this.#inputBonusNumber();
+    }
+  }
+
   async run() {
     await this.#inputAmount();
     this.#buyLottoTickets();
     this.#displayLottoTickets();
     await this.#inputWinningNumbers();
+    await this.#inputBonusNumber();
   }
 }
 
