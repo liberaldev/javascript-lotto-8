@@ -19,6 +19,16 @@ class App {
     }
   }
 
+  async #inputAmount() {
+    try {
+      this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
+      this.#validateAmount();
+    } catch (error) {
+      MissionUtils.Console.print(`\n${error.message}\n`);
+      await this.#inputAmount();
+    }
+  }
+
   #buyLottoTickets() {
     for (let i = 0; i < this.#amount / 1000; i += 1) {
       this.#lottoTickets.push(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
@@ -33,13 +43,7 @@ class App {
   }
 
   async run() {
-    try {
-      this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
-      this.#validateAmount();
-    } catch (error) {
-      MissionUtils.Console.print(`\n${error.message}\n`);
-      this.#amount = Number(await MissionUtils.Console.readLineAsync('구입금액을 입력해 주세요.\n'));
-    }
+    await this.#inputAmount();
     this.#buyLottoTickets();
     this.#displayLottoTickets();
   }
