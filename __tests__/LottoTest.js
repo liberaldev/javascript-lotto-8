@@ -14,5 +14,9 @@ describe('로또 클래스 테스트', () => {
     }).toThrow('[ERROR]');
   });
 
-  // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+  test('getNumber 메소드 테스트', () => {
+    const lotto = new Lotto([1, 2, 3, 4, 5, 6]);
+
+    expect(lotto.getNumbers()).toEqual([1, 2, 3, 4, 5, 6]);
+  });
 });
