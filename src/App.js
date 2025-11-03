@@ -4,7 +4,13 @@ import LottoTickets from './LottoTickets.js';
 import LottoRanking from './LottoRanking.js';
 
 class App {
-  static LOTTO_PRICE = 1000;
+  static #LOTTO_PRICE = 1000;
+
+  static #LOTTO_WINNING_NUMBERS_SIZE = 6;
+
+  static #LOTTO_MIN_NUMBER = 1;
+
+  static #LOTTO_MAX_NUMBER = 45;
 
   #amount;
 
@@ -18,8 +24,8 @@ class App {
     if (Number.isNaN(this.#amount)) {
       throw new Error('[ERROR] 숫자를 입력하십시오');
     }
-    if (this.#amount % App.LOTTO_PRICE !== 0) {
-      throw new Error(`[ERROR] ${App.LOTTO_PRICE}원으로 나누어떨어지지 않습니다. ${App.LOTTO_PRICE}원 단위로 입력하십시오`);
+    if (this.#amount % App.#LOTTO_PRICE !== 0) {
+      throw new Error(`[ERROR] ${App.#LOTTO_PRICE}원으로 나누어떨어지지 않습니다. ${App.#LOTTO_PRICE}원 단위로 입력하십시오`);
     }
   }
 
@@ -35,7 +41,7 @@ class App {
 
   #buyLottoTickets() {
     this.#lottoTickets = new LottoTickets();
-    for (let i = 0; i < this.#amount / App.LOTTO_PRICE; i += 1) {
+    for (let i = 0; i < this.#amount / App.#LOTTO_PRICE; i += 1) {
       this.#lottoTickets.add(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
     }
   }
@@ -52,11 +58,13 @@ class App {
       throw new Error('[ERROR] 숫자를 입력하세요');
     }
 
-    if (this.#lottoWinningNumbers.length !== 6) {
+    if (this.#lottoWinningNumbers.length !== App.#LOTTO_WINNING_NUMBERS_SIZE) {
       throw new Error('[ERROR] 6개 숫자를 입력하세요');
     }
 
-    if (this.#lottoWinningNumbers.some((number) => number < 1 || number > 45)) {
+    if (this.#lottoWinningNumbers.some(
+      (number) => number < App.#LOTTO_MIN_NUMBER || number > App.#LOTTO_MAX_NUMBER,
+    )) {
       throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요');
     }
   }
