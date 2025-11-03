@@ -19,4 +19,15 @@ describe('로또 클래스 테스트', () => {
 
     expect(lotto.getNumbers()).toEqual([1, 2, 3, 4, 5, 6]);
   });
+
+  test.each([
+    [[1, 2, 3, 4, 5, 6], 9, '1st'],
+    [[1, 2, 3, 4, 5, 10], 6, '2nd'],
+    [[1, 2, 3, 4, 5, 10], 11, '3rd'],
+    [[10, 1, 2, 3, 4, 15], 11, '4th'],
+    [[10, 1, 2, 3, 14, 15], 16, '5th'],
+  ])('raking 메소드 테스트', (winningNumbers, bonusNumber, result) => {
+    const lotto = new Lotto([2, 3, 1, 6, 5, 4]);
+    expect(lotto.ranking(winningNumbers, bonusNumber)).toBe(result);
+  });
 });
