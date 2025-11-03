@@ -55,17 +55,17 @@ class App {
 
   #validateWinningNumbers() {
     if (this.#lottoWinningNumbers.includes(NaN)) {
-      throw new Error('[ERROR] 숫자를 입력하세요');
+      throw new Error('[ERROR] 숫자를 입력하세요.');
     }
 
     if (this.#lottoWinningNumbers.length !== App.#LOTTO_WINNING_NUMBERS_SIZE) {
-      throw new Error('[ERROR] 6개 숫자를 입력하세요');
+      throw new Error('[ERROR] 6개 숫자를 입력하세요.');
     }
 
     if (this.#lottoWinningNumbers.some(
       (number) => number < App.#LOTTO_MIN_NUMBER || number > App.#LOTTO_MAX_NUMBER,
     )) {
-      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요');
+      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요.');
     }
   }
 
@@ -82,11 +82,11 @@ class App {
 
   #validateBonusNumber() {
     if (Number.isNaN(this.#lottoBonusNumber)) {
-      throw new Error('[ERROR] 숫자를 입력하세요');
+      throw new Error('[ERROR] 숫자를 .');
     }
 
     if (this.#lottoBonusNumber < 1 || this.#lottoBonusNumber > 45) {
-      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요');
+      throw new Error('[ERROR] 1부터 45까지의 숫자를 입력하세요.');
     }
   }
 
