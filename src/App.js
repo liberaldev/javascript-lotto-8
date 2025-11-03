@@ -127,7 +127,7 @@ class App {
       MissionUtils.Console.print(`${ranking.description} (${ranking.prize.toLocaleString('ko-KR')}원) - ${winCount[ranking.key]}개`);
     });
 
-    MissionUtils.Console.print(`총 수익률은 ${Math.round(this.#revenueRate() * 100) / 100}%입니다.`);
+    MissionUtils.Console.print(`총 수익률은 ${Math.round(this.#revenueRate() * 10) / 10}%입니다.`);
   }
 
   async run() {
