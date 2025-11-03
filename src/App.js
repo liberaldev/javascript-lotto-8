@@ -1,6 +1,7 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
 import Lotto from './Lotto.js';
 import LottoTickets from './LottoTickets.js';
+import LottoRanking from './LottoRanking.js';
 
 class App {
   static LOTTO_PRICE = 1000;
@@ -12,18 +13,6 @@ class App {
   #lottoWinningNumbers;
 
   #lottoBonusNumber;
-
-  #revenueByRanking;
-
-  constructor() {
-    this.#revenueByRanking = {
-      '1st': 2000000000,
-      '2nd': 30000000,
-      '3rd': 1500000,
-      '4th': 50000,
-      '5th': 5000,
-    };
-  }
 
   #validateAmount() {
     if (Number.isNaN(this.#amount)) {
@@ -110,7 +99,7 @@ class App {
     );
     let revenue = 0;
     Object.entries(winCount).forEach(([ranking, count]) => {
-      revenue += count * this.#revenueByRanking[ranking];
+      revenue += count * LottoRanking.values().find((item) => item.key === ranking).prize;
     });
     return revenue;
   }
@@ -125,11 +114,11 @@ class App {
       this.#lottoBonusNumber,
     );
     MissionUtils.Console.print('\n당첨 통계\n---');
-    MissionUtils.Console.print(`3개 일치 (${this.#revenueByRanking['5th'].toLocaleString('ko-KR')}원) - ${winCount['5th']}개`);
-    MissionUtils.Console.print(`4개 일치 (${this.#revenueByRanking['4th'].toLocaleString('ko-KR')}원) - ${winCount['4th']}개`);
-    MissionUtils.Console.print(`5개 일치 (${this.#revenueByRanking['3rd'].toLocaleString('ko-KR')}원) - ${winCount['3rd']}개`);
-    MissionUtils.Console.print(`5개 일치, 보너스 볼 일치 (${this.#revenueByRanking['2nd'].toLocaleString('ko-KR')}원) - ${winCount['2nd']}개`);
-    MissionUtils.Console.print(`6개 일치 (${this.#revenueByRanking['1st'].toLocaleString('ko-KR')}원) - ${winCount['1st']}개`);
+
+    [...LottoRanking.values()].reverse().forEach((ranking) => {
+      MissionUtils.Console.print(`${ranking.description} (${ranking.prize.toLocaleString('ko-KR')}원) - ${winCount[ranking.key]}개`);
+    });
+
     MissionUtils.Console.print(`총 수익률은 ${this.#revenueRate()}%입니다.`);
   }
 
