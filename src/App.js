@@ -1,5 +1,6 @@
 import { MissionUtils } from '@woowacourse/mission-utils';
 import Lotto from './Lotto.js';
+import LottoTickets from './LottoTickets.js';
 
 class App {
   #amount;
@@ -13,7 +14,6 @@ class App {
   #revenueByRanking;
 
   constructor() {
-    this.#lottoTickets = [];
     this.#revenueByRanking = {
       '1st': 2000000000,
       '2nd': 30000000,
@@ -43,14 +43,15 @@ class App {
   }
 
   #buyLottoTickets() {
+    this.#lottoTickets = new LottoTickets();
     for (let i = 0; i < this.#amount / 1000; i += 1) {
-      this.#lottoTickets.push(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
+      this.#lottoTickets.add(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
     }
   }
 
   #displayLottoTickets() {
-    MissionUtils.Console.print(`\n${this.#lottoTickets.length}개를 구매했습니다.`);
-    this.#lottoTickets.forEach((lottoTicket) => {
+    MissionUtils.Console.print(`\n${this.#lottoTickets.count()}개를 구매했습니다.`);
+    this.#lottoTickets.getTickets().forEach((lottoTicket) => {
       MissionUtils.Console.print(`[${lottoTicket.getNumbers().sort((a, b) => (a - b)).join(', ')}]`);
     });
   }
@@ -100,21 +101,11 @@ class App {
     }
   }
 
-  #countWin() {
-    const result = {
-      '1st': 0, '2nd': 0, '3rd': 0, '4th': 0, '5th': 0,
-    };
-    this.#lottoTickets.forEach((lottoTicket) => {
-      const ranking = lottoTicket.ranking(this.#lottoWinningNumbers, this.#lottoBonusNumber);
-      if (ranking) {
-        result[ranking] += 1;
-      }
-    });
-    return result;
-  }
-
   #calculateRevenue() {
-    const winCount = this.#countWin();
+    const winCount = this.#lottoTickets.countWining(
+      this.#lottoWinningNumbers,
+      this.#lottoBonusNumber,
+    );
     let revenue = 0;
     Object.entries(winCount).forEach(([ranking, count]) => {
       revenue += count * this.#revenueByRanking[ranking];
@@ -127,7 +118,10 @@ class App {
   }
 
   #displayStatistics() {
-    const winCount = this.#countWin();
+    const winCount = this.#lottoTickets.countWining(
+      this.#lottoWinningNumbers,
+      this.#lottoBonusNumber,
+    );
     MissionUtils.Console.print('\n당첨 통계\n---');
     MissionUtils.Console.print(`3개 일치 (${this.#revenueByRanking['5th'].toLocaleString('ko-KR')}원) - ${winCount['5th']}개`);
     MissionUtils.Console.print(`4개 일치 (${this.#revenueByRanking['4th'].toLocaleString('ko-KR')}원) - ${winCount['4th']}개`);
