@@ -10,7 +10,7 @@ describe('로토 랭킹 클래스 테스트', () => {
     [3, false, '5th'],
     [3, true, '5th'],
     [4, true, '4th'],
-  ])('findRanking 메소드 테스트', (matchCount, hasBonusNum, result) => {
+  ])('findRanking 메소드 테스트(%s, %s)', (matchCount, hasBonusNum, result) => {
     expect(LottoRanking.findRanking(matchCount, hasBonusNum)).toBe(result);
   });
 });
