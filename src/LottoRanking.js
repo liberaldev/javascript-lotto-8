@@ -23,7 +23,8 @@ class LottoRanking {
 
   static findRanking(matchCount, hasBonusNum) {
     const ranking = this.values().find(
-      (item) => matchCount === item.matchCount && hasBonusNum === item.hasBonusNum,
+      (item) => (matchCount === item.matchCount && hasBonusNum === item.hasBonusNum)
+        || (matchCount === item.matchCount && !item.hasBonusNum),
     );
     if (ranking) {
       return ranking.key;
