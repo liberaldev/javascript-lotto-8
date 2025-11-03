@@ -8,4 +8,9 @@ describe('로토 티켓스 클래스 테스트', () => {
     lottoTickets.add(lottoTicket);
     expect(lottoTickets.getTickets()).toEqual([lottoTicket]);
   });
+
+  test('count 메소드 테스트', () => {
+    const lottoTickets = new LottoTickets();
+    expect(lottoTickets.count()).toBe(0);
+  });
 });
