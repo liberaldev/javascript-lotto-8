@@ -3,6 +3,8 @@ import Lotto from './Lotto.js';
 import LottoTickets from './LottoTickets.js';
 
 class App {
+  static LOTTO_PRICE = 1000;
+
   #amount;
 
   #lottoTickets;
@@ -27,8 +29,8 @@ class App {
     if (Number.isNaN(this.#amount)) {
       throw new Error('[ERROR] 숫자를 입력하십시오');
     }
-    if (this.#amount % 1000 !== 0) {
-      throw new Error('[ERROR] 1000원으로 나누어떨어지지 않습니다. 1000원 단위로 입력하십시오');
+    if (this.#amount % App.LOTTO_PRICE !== 0) {
+      throw new Error(`[ERROR] ${App.LOTTO_PRICE}원으로 나누어떨어지지 않습니다. ${App.LOTTO_PRICE}원 단위로 입력하십시오`);
     }
   }
 
@@ -44,7 +46,7 @@ class App {
 
   #buyLottoTickets() {
     this.#lottoTickets = new LottoTickets();
-    for (let i = 0; i < this.#amount / 1000; i += 1) {
+    for (let i = 0; i < this.#amount / App.LOTTO_PRICE; i += 1) {
       this.#lottoTickets.add(new Lotto(MissionUtils.Random.pickUniqueNumbersInRange(1, 45, 6)));
     }
   }
