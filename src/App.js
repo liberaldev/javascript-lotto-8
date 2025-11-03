@@ -116,9 +116,9 @@ class App {
   #calculateRevenue() {
     const winCount = this.#countWin();
     let revenue = 0;
-    for (const [ranking, count] of Object.entries(winCount)) {
+    Object.entries(winCount).forEach(([ranking, count]) => {
       revenue += count * this.#revenueByRanking[ranking];
-    }
+    });
     return revenue;
   }
 
